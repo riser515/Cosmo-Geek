@@ -1,7 +1,14 @@
 import './styles.css';
 
 let resultData = [];
+let favPosts = [];
+const loader = document.querySelector('.loader');
+const homebtn = document.querySelector('.homebtn');
+const favbtn = document.querySelector('.favbtn');
 const post = document.querySelector('.post');
+const homenav = document.getElementById('homenav');
+const homefav = document.getElementById('homefav');
+const favnav = document.getElementById('favnav');
 let date = new Date();
 let endDate = new Date().toISOString().slice(0, 10);
 let start = date.getDate() - 6;
@@ -9,6 +16,22 @@ let startDate = new Date(date.setDate(start)).toISOString().slice(0, 10);
 let apiURL = `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&start_date=${startDate}&end_date=${endDate}`;
 console.log(startDate);
 console.log(endDate);
+
+function saveFav(resultURL){
+    resultData.forEach(result => {
+        if(result.url.includes(resultURL) && !favPosts[resultURL]){
+            favPosts[resultURL] = result;
+        }
+    })
+}
+
+function removeFav(resultURL){
+    if(favPosts[resultURL]){
+        delete favPosts[resultURL];
+        localStorage.setItem('favpost', JSON.stringify(favPosts));
+        renderData('fav');
+    }
+}
 
 function createDOM(data){
     let renderArray = data === 'results' ? resultData : Object.values(favPosts);
@@ -45,6 +68,15 @@ function createDOM(data){
         savebtn.style.color = 'dodgerblue';
         if(data === 'results'){
             savebtn.textContent = 'Add to Favorites';
+            savebtn.addEventListener('click', function(){
+                saveFav(`${result.url}`);
+            });
+        }
+        else{
+            savebtn.textContent = 'Remove from Favorites';
+            savebtn.addEventListener('click', function(){
+                removeFav(`${result.url}`);
+            });
         }
 
         // Card Text
@@ -72,14 +104,44 @@ function createDOM(data){
 }
 
 async function getData(){
+    loader.classList.remove('hidden');
     try{
         const r = await fetch(apiURL);
         resultData = await r.json();
-        createDOM('results');
-        console.log("Done");
+        renderData('results');
     } catch(error){
         console.log("Error", e);
     }
 }
 
-getData();
+function changeNav(data){
+    loader.classList.add('hidden');
+    if(data === 'results'){
+        homenav.style.display = '';
+        favnav.style.display = 'none';
+    }
+    else{
+        homenav.style.display = 'none';
+        favnav.style.display = '';
+    }
+}
+
+function renderData(data){
+    if(localStorage.getItem('favpost')){
+        favPosts = JSON.parse(localStorage.getItem('favpost'));
+    }
+    post.innerHTML = '';
+    createDOM(data);
+    changeNav(data);
+}
+
+function init(){
+    getData();
+    homebtn.addEventListener('click', getData);
+    homefav.addEventListener('click', getData);
+    favbtn.addEventListener('click', function(){
+        renderData('fav');
+    });
+}
+
+init();
