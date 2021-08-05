@@ -96,3 +96,14 @@ body {
     font-size: 20px;
   }
 }
+
+.save-confirmed {
+  background: white;
+  padding: 8px 16px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: dodgerblue;
+  position: fixed;
+  right: 25px;
+  bottom: 50px;
+}

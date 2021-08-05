@@ -2,6 +2,7 @@ import './styles.css';
 
 let resultData = [];
 let favPosts = [];
+const saveConfirmed = document.querySelector('.save-confirmed');
 const loader = document.querySelector('.loader');
 const homebtn = document.querySelector('.homebtn');
 const favbtn = document.querySelector('.favbtn');
@@ -21,6 +22,11 @@ function saveFav(resultURL){
     resultData.forEach(result => {
         if(result.url.includes(resultURL) && !favPosts[resultURL]){
             favPosts[resultURL] = result;
+            localStorage.setItem('favpost', JSON.stringify(favPosts));
+            saveConfirmed.hidden = false;
+            setTimeout(() => {
+                saveConfirmed.hidden = true;
+            }, 3000);
         }
     })
 }
