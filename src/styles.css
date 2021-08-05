@@ -72,6 +72,15 @@ body {
   font-size: 24px;
 }
 
+.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.clickable:hover {
+  color: rgb(0, 124, 248);
+}
+
 @media screen and (max-width: 800px) {
   body {
     line-height: 1.4rem;
