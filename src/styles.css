@@ -33,7 +33,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95vw;
+  width: 98vw;
+  background: whitesmoke;
 }
 
 .container {
@@ -41,7 +42,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 54px;
   margin-bottom: 25px;
 }
 
@@ -70,4 +70,20 @@ body {
 .card--title {
   margin: 10px auto;
   font-size: 24px;
+}
+
+@media screen and (max-width: 800px) {
+  body {
+    line-height: 1.4rem;
+    font-size: 0.9rem;
+    text-align: justify;
+  }
+
+  .post {
+    width: 100%;
+  }
+
+  .card--title {
+    font-size: 20px;
+  }
 }
