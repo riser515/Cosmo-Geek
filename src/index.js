@@ -1,4 +1,6 @@
 import './styles.css';
+import img from '../images/cosmo.png';
+import img1 from '../astronaut.svg';
 
 let resultData = [];
 let favPosts = [];
